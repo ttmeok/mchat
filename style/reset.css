@@ -1,0 +1,90 @@
+@charset "UTF-8";
+html, body, ul, li, ol, dl, dd, dt, p, h1, h2, h3, h4, h5, h6, form, fieldset, legend, img ,span{ margin:0; padding:0; }
+fieldset, img { border:none; }
+address, caption, cite, code, dfn, th, var { font-style:normal; font-weight:normal; }
+ul, ol { list-style:none; }
+a,a:hover {text-decoration:none; }
+i{font-style: normal;}
+button{
+	border:none;
+	outline: none;
+	-moz-user-select: none;
+	-o-user-select:none;
+	-khtml-user-select:none;
+	-webkit-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+	cursor: pointer;
+}
+@font-face {
+    font-family: 'myFont';
+	src: url('/fonts/PingFangSC-Regular.ttf');
+    src: url('/fonts/PingFangSC-Regular.ttf') format('embedded-opentype'),/*IE6-IE8*/
+    url('/fonts/PingFangSC-Regular.ttf') format('woff2'),
+    url('/fonts/PingFangSC-Regular.ttf') format('woff'),/*现代所有浏览器*/
+    url('/fonts/PingFangSC-Regular.ttf') format('truetype');/*Safari、Android、iOS*/
+    font-weight: normal;
+    font-style: normal;
+}
+* {
+    font-family: "myFont","微软雅黑","sans-serif","Robot";
+}
+
+html {
+	width: 100%;
+	/* height: 100%; */
+	font-size: calc(100vw/7.5);
+	letter-spacing: 0.04rem;
+	-ms-touch-action: none;
+}
+
+body {
+	width: 100%;
+	overflow: hidden;
+	/* height: 100%; */
+}
+
+.ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.clearfix:after {
+    display: table;
+    content: "";
+    clear: both;
+    visibility: hidden;
+}
+
+.btn {
+    color: #2169e3;
+    text-align: center;
+    font-size: 14px;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.unselected{
+	-moz-user-select: none;
+	-o-user-select:none;
+	-khtml-user-select:none;
+	-webkit-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+}
+
+/*input::-webkit-input-placeholder {
+    color:#CBCBD5;
+}
+input::-moz-placeholder {
+    color:#CBCBD5;
+}
+input::-ms-input-placeholder {
+    color:#CBCBD5;
+}
+input::input-placeholder {
+    color:#CBCBD5;
+}*/

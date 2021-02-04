@@ -1,0 +1,401 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>WebSocket Chat</title>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+	<link href="bootstrap.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="reset.css">
+	<link rel="stylesheet" href="emoji.css">
+	<link rel="stylesheet" href="client.css">
+	<script src="jquery.js"></script>
+	<script src="iscroll.js"></script>
+	<script src="emoji.js"></script>
+	<script src="bootstrap.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+
+	</script>
+</head>
+
+<body>
+	<!-- <div class="container"> -->
+	<div class="header">
+		WebSocket Chat
+		<img id="clientHead" src="" alt="">
+	</div>
+	<div class="main" id="main">
+		<ul id="messages">
+
+		</ul>
+	</div>
+	<form class="footer clearfix" role="form" id="chat_form" onsubmit="sendMessage(); return false;">
+		<span class="lb"></span>
+		<input type="text" id="message" name="message" value="" />
+		<button type="button" id="send" onclick="sendMessage();">发送</button>
+		<span class="bq"></span>
+	</form>
+	<!-- </div> -->
+	<div class="cnamebox">
+		<div class="cname clearfix">
+			<h5>我在本群的昵称</h5>
+			<input id="name" type="text" />
+			<p>设置你在群里的昵称</p>
+			<span id="yesc" onclick="changName()">确定</span>
+			<span id="noc">取消</span>
+		</div>
+	</div>
+	<canvas id="myCanvas" width="100" height="100" style="border:1px solid #d3d3d3;">
+		Your browser does not support the HTML5 canvas tag.
+	</canvas>
+	<div class="emojstext">
+		<span>😠</span>
+		<span>😩</span>
+		<span>😲</span>
+		<span>😞</span>
+		<span>😵</span>
+		<span>😰</span>
+		<span>😒</span>
+		<span>😍</span>
+		<span>😤</span>
+		<span>😜</span>
+		<span>😝</span>
+		<span>😋</span>
+		<span>😘</span>
+		<span>😚</span>
+		<span>😷</span>
+		<span>😳</span>
+		<span>😃</span>
+		<span>😅</span>
+		<span>😆</span>
+		<span>😁</span>
+		<span>😂</span>
+		<span>😊</span>
+		<span>😄</span>
+		<span>😢</span>
+		<span>😭</span>
+		<span>😨</span>
+		<span>😣</span>
+		<span>😡</span>
+		<span>😌</span>
+		<span>😖</span>
+		<span>😔</span>
+		<span>😱</span>
+		<span>😪</span>
+		<span>😏</span>
+		<span>😓</span>
+		<span>😥</span>
+		<span>😫</span>
+		<span>😉</span>
+	</div>
+	<script>
+		function isPassive() {
+			var supportsPassiveOption = false;
+			try {
+				addEventListener("test", null, Object.defineProperty({}, 'passive', {
+					get: function() {
+						supportsPassiveOption = true;
+					}
+				}));
+			} catch (e) {}
+			return supportsPassiveOption;
+		}
+
+		var myScroll;
+
+		function loaded() {
+			myScroll = new IScroll('#main', {
+				mouseWheel: true,
+				click: true
+			});
+		}
+
+		document.addEventListener('touchmove', function(e) {
+			e.preventDefault();
+		}, isPassive() ? {
+			capture: false,
+			passive: false
+		} : false);
+		//建立连接
+		function guid() {
+		    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+		        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+		        return v.toString(16);
+		    });
+		}
+
+
+		var ouser = localStorage.getItem("OUSER");
+		var nickname = "",
+			nickId = "",
+			chead = "",
+			socket;
+		if (ouser) {
+			nickId = JSON.parse(ouser).id;
+			nickname = JSON.parse(ouser).nickname;
+			chead = JSON.parse(ouser).head;
+			document.getElementById("clientHead").src = chead;
+			socket = io({
+				query: {
+					ouser: ouser
+				}
+			});
+		} else {
+			var nu = guid();
+			nickId = nu;
+			socket = io({
+				query:{
+					nuser: nu
+				}
+			});
+		}
+		socket.on("connect", function() {
+			console.log("socket 连接成功");
+			if (!ouser) {
+				makePhoto()
+			}
+			loaded()
+		});
+
+		  // var $text = $('.emojstext');
+		  // var html = $text.html().trim().replace(/\n/g, '<br/>');
+		  // var html = $text.html().trim().replace(/\n/g, '');
+		  // html = jEmoji.softbankToUnified(html);
+		  // html = jEmoji.googleToUnified(html);
+		  // html = jEmoji.docomoToUnified(html);
+		  // html = jEmoji.kddiToUnified(html);
+		  // $text.html(jEmoji.unifiedToHTML(html));
+
+		$("#clientHead").click(function() {
+			$(".cnamebox").show();
+		})
+		$("#noc").click(function() {
+			$(".cnamebox").hide();
+		})
+		$(".cnamebox").not(".cname").click(function() {
+			$(".cnamebox").hide();
+		})
+		$(".cname").click(function(e) {
+			window.event ? window.event.cancelBubble = true : e.stopPropagation();
+		})
+		$(".lb,.bq").click(function() {
+			alert("功能暂未开通")
+		})
+
+		$(window).resize(function(){
+				$(".footer").css({
+					bottom:0
+				});
+		})
+
+		// $(".bq").click(function() {
+		// 	$(".footer").css({
+		// 		bottom:"4rem"
+		// 	});
+		// 	$(".emojstext").show();
+		// })
+
+		function makePhoto() {
+			var img = document.getElementById("clientHead");
+			var srcStr = img.src;
+			var args = arguments;
+			var backColor = "transparent";
+			var imgWidth = 100;
+			var penSize = 20;
+			var penColor = "rgb(" + getRemodInt(255) + "," + getRemodInt(255) + "," + getRemodInt(255) + ")";
+			var c = document.getElementById("myCanvas");
+
+			if (args.length !== 0) {
+				args = args[0];
+				if (args.backColor) {
+					backColor = args.backColor;
+					if (backColor === "rmd") {
+						backColor = "rgb(" + getRemodInt(255) + "," + getRemodInt(255) + "," + getRemodInt(255) + ")";
+					}
+				}
+				if (args.imgWidth) {
+					imgWidth = parseInt(new Number(args.imgWidth));
+				}
+				if (args.penColor && args.penColor !== "") {
+					penColor = args.penColor;
+				}
+				if (args.penSize) {
+					penSize = parseInt(new Number(args.penSize));
+				}
+			}
+			c.width = imgWidth;
+			c.height = imgWidth;
+
+			var ctx = c.getContext("2d");
+			ctx.fillStyle = "green";
+			//ctx.fillRect(40,0,10,10);
+
+			// x从cab 0-50 取 值，再拿这个值取到对称数，
+			// y 从0 到 100 做10 次增加
+
+			ctx.fillStyle = backColor;
+			//console.log(backColor);
+			ctx.fillRect(0, 0, imgWidth, imgWidth);
+			ctx.fillStyle = penColor;
+			for (var yl = 0; yl <= imgWidth; yl += penSize) {
+				(function(rmd) {
+					for (var i = 0; i < rmd; i++) {
+						var x1 = getRemodIntByPenSize(imgWidth / 2, penSize);
+						//console.log(x1);
+						var x2 = getSymmetry(x1, imgWidth, penSize);
+						ctx.fillRect(x1, yl, penSize, penSize);
+						ctx.fillRect(x2, yl, penSize, penSize);
+					}
+				})(getRemodInt(imgWidth / penSize / 2));
+			}
+			chead = c.toDataURL()
+			img.src = chead;
+			socket.emit("head_update", chead);
+		}
+
+
+		function getSymmetry(a, imgWidth, penSize) {
+			return imgWidth - a - penSize;
+		}
+
+		function getRemodIntByPenSize(alt, penSize) {
+			var rmd = 0;
+			while (true) {
+				rmd = Math.floor(Math.random() * alt);
+				if (rmd % penSize === 0) {
+					return rmd;
+				}
+			}
+		}
+
+		function getRemodInt(alt) {
+			return Math.floor(Math.random() * alt) + 1;
+		}
+
+
+
+
+		//显示
+		function appendLog(type, nickname, message, head, id) {
+			if (typeof message == "undefined") return;
+			var messages = document.getElementById('messages');
+			// var messageElem = document.createElement("li");
+			var message_text = "";
+			if (type === 'notification') {
+				message_text = "<li><p>" + message + "</p></li>";
+			} else if (type === 'nick_update') {
+				message_text = "<li><p>" + message + "</p></li>";
+			} else {
+				if (id == nickId) {
+					message_text = '<li class="rightli clearfix">\
+						<img src="' + head + '" alt="">\
+						<em>' + nickname + '</em>\
+						<span>' + message + '</span>\
+	                </li>';
+				} else {
+					message_text = '<li class="leftli clearfix">\
+	                    <img src="' + head + '" alt="">\
+						<em>' + nickname + '</em>\
+	                    <span>' + message + '</span>\
+	                </li>';
+				}
+			}
+			// var message_text = "<h2>" + preface_label + "&nbsp;&nbsp;" +
+			// 	message + "</h2>";
+			messages.innerHTML = messages.innerHTML + message_text;
+			myScroll.refresh();
+			myScroll.scrollToElement(document.querySelector('#messages li:last-of-type'), 330, null, null, null)
+		}
+		//收到消息处理
+		socket.on("message", function(e) {
+			var data = JSON.parse(e);
+			// nickname = data.nickname;
+			appendLog("message", data.nickname, data.message, data.head, data.id);
+		});
+		socket.on("nick_update", function(e) {
+			var data = JSON.parse(e);
+			if (data.id == nickId) {
+				nickname = data.nickname;
+				localStorage.setItem("OUSER", e);
+			}
+			appendLog("nick_update", data.nickname, data.message, data.head);
+		});
+		socket.on("head_update", function(e) {
+			var data = JSON.parse(e);
+			if (data.id == nickId) {
+				chead = data.head;
+				localStorage.setItem("OUSER", e);
+			}
+			// var data = JSON.parse(e);
+			// console.log(data);
+			// nickname = data.nickname;
+			// appendLog("message", data.nickname, data.message, data.head);
+		});
+
+		socket.on("online", function(e) {
+			var data = JSON.parse(e);
+			// console.log("online");
+			// console.log(data);
+			if (data.id == nickId) {
+				$("#name").val(nickname);
+			}
+			appendLog("notification", data.nickname, data.message, data.head);
+		});
+		socket.on("fonline", function(e) {
+			var data = JSON.parse(e);
+			// console.log("fonline");
+			// console.log(data);
+			// nickId = data.id;
+			if(data.id == nickId){
+				nickname = data.nickname;
+				$("#name").val(nickname);
+				localStorage.setItem("OUSER", e);
+			}
+			appendLog("notification", data.nickname, data.message, data.head);
+		});
+		socket.on("offline", function(e) {
+			var data = JSON.parse(e);
+			appendLog("notification", data.nickname, data.message, data.head);
+		});
+		socket.on('disconnect', function(e) {
+			appendLog("Connection closed");
+			console.log("Connection closed");
+		});
+		//发送消息
+		function sendMessage() {
+			var messageField = document.getElementById('message');
+			if (messageField.value.indexOf('/nick') === 0) {
+				var nickname_array = messageField.value.split(' ');
+				if (nickname_array.length >= 2) {
+					socket.emit('nickname', {
+						nickname: nickname_array[1]
+					});
+				}
+			} else {
+				if (messageField.value != "") {
+					socket.send(messageField.value);
+				}
+			}
+			messageField.value = '';
+			// messageField.focus();
+		}
+		//修改名称
+		function changName() {
+			var name = $("#name").val();
+			var regEn = /[`~!@#$%^&*()+<>?:"{},.\/;'[\]]/im;
+
+			if (regEn.test(name)) {
+				alert("名称不能包含特殊字符.");
+			} else {
+				socket.emit("nick_update", name);
+				$(".cnamebox").hide();
+			}
+		}
+
+		function disconnect() {
+			ws.close();
+		}
+	</script>
+</body>
+
+</html>

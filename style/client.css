@@ -1,0 +1,358 @@
+/* .container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	padding: 1rem 0 0.7rem 0;
+	background-color: #ebebeb;
+	box-sizing: border-box;
+} */
+
+.header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 1rem;
+	padding: 0 0.4rem;
+	color: #fff;
+	background: #303030;
+	line-height: 1rem;
+	font-size: 0.3rem;
+	box-sizing: border-box;
+	z-index: 2;
+}
+
+.header img {
+	position: absolute;
+	right: 0.25rem;
+	top: 0.2rem;
+	width: 0.6rem;
+	height: 0.6rem;
+	background-color: #fff;
+	border-radius: 0.05rem;
+}
+
+.main {
+	position: absolute;
+	z-index: 1;
+	width: 100%;
+	top: 1rem;
+	bottom: 0.7rem;
+	left: 0;
+	overflow: hidden;
+}
+
+#messages {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	padding: 0.12rem 0.15rem;
+	z-index: 1;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-transform: translateZ(0);
+	-moz-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	-o-transform: translateZ(0);
+	transform: translateZ(0);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: none;
+	-ms-text-size-adjust: none;
+	-o-text-size-adjust: none;
+	text-size-adjust: none;
+}
+
+#messages p {
+	display: inline-block;
+	width: auto;
+	padding: 0 0.08rem;
+	background: #d6d6d6;
+	color: #fff;
+	font-size: 0.22rem;
+	line-height: 0.48rem;
+	border-radius: 0.03rem;
+}
+
+.hl {
+	color: #4c5361;
+	font-size: 0.22rem;
+}
+
+#messages li {
+	position: relative;
+	margin: 0.12rem 0;
+}
+
+#messages li.leftli img {
+	float: left;
+	display: block;
+	width: 0.76rem;
+	height: 0.76rem;
+	margin-right: 0.16rem;
+	background: #fff;
+}
+#messages li.leftli em {
+	position: absolute;
+	top:0;
+	left: 0.92rem;
+	display: block;
+	height: 0.3rem;
+	line-height: 0.3rem;
+	font-size: 0.16rem;
+	letter-spacing: 0;
+	font-style: normal;
+	color: #a3a3a3;
+}
+#messages li.leftli span {
+	position: relative;
+	float: left;
+	display: block;
+	max-width: 5rem;
+	margin-top: 0.3rem;
+	padding: 0.15rem;
+	line-height: 0.4rem;
+	font-size: 0.24rem;
+	background: #fff;
+	border-radius: 0.05rem;
+	border: 0.02rem solid #e5e5e5;
+	text-align: left;
+	word-wrap: break-word;
+}
+
+#messages li.leftli span:before {
+	content: '';
+	position: absolute;
+	width: 0;
+	height: 0;
+	left: -0.24rem;
+	top: 0.22rem;
+	border: 0.12rem solid;
+	border-color: transparent #e5e5e5 transparent transparent;
+}
+
+#messages li.leftli span:after {
+	content: '';
+	position: absolute;
+	width: 0;
+	height: 0;
+	left: -0.18rem;
+	top: 0.22rem;
+	border: 0.1rem solid;
+	border-color: transparent #ffffff transparent transparent;
+}
+
+#messages li.rightli img {
+	float: right;
+	display: block;
+	width: 0.76rem;
+	height: 0.76rem;
+	margin-left: 0.16rem;
+	background: #fff;
+}
+#messages li.rightli em {
+	position: absolute;
+	top:0;
+	right: 0.92rem;
+	display: block;
+	height: 0.3rem;
+	line-height: 0.3rem;
+	font-size: 0.16rem;
+	letter-spacing: 0;
+	font-style: normal;
+	color: #a3a3a3;
+}
+#messages li.rightli span {
+	position: relative;
+	float: right;
+	display: block;
+	max-width: 5rem;
+	margin-top: 0.3rem;
+	padding: 0.15rem;
+	line-height: 0.4rem;
+	font-size: 0.24rem;
+	background: #a2e95f;
+	border-radius: 0.05rem;
+	border: 0.02rem solid #e5e5e5;
+	text-align: left;
+	word-wrap: break-word;
+}
+
+#messages li.rightli span:before {
+	content: '';
+	position: absolute;
+	width: 0;
+	height: 0;
+	right: -0.24rem;
+	top: 0.22rem;
+	border: 0.12rem solid;
+	border-color: transparent transparent transparent #e5e5e5;
+}
+
+#messages li.rightli span:after {
+	content: '';
+	position: absolute;
+	width: 0;
+	height: 0;
+	right: -0.18rem;
+	top: 0.22rem;
+	border: 0.1rem solid;
+	border-color: transparent transparent transparent #a2e95f;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 0.9rem;
+	border-top: 0.02rem solid #e1e1e1;
+	background: #f3f3f3;
+	z-index: 2;
+}
+
+.footer input {
+	float: left;
+	width: 4.44rem;
+	height: 0.7rem;
+	margin-top: 0.1rem;
+	margin-left: 0.12rem;
+	padding: 0.17rem;
+	background: transparent;
+	border: none;
+	outline: none;
+	border-bottom: 0.02rem solid #8aae87;
+	font-size: 0.24rem;
+	line-height: 0.36rem;
+	color: #000;
+	caret-color: #0e8017;
+}
+
+.footer .lb {
+	float: left;
+	width: 0.7rem;
+	height: 0.7rem;
+	margin-top: 0.1rem;
+	margin-left: 0.18rem;
+	background: url("/imgs/icon_1.png") center center no-repeat;
+	background-size: 100% 100%;
+}
+
+.footer .bq {
+	float: right;
+	width: 0.7rem;
+	height: 0.7rem;
+	margin-top: 0.1rem;
+	margin-right: 0.12rem;
+	background: url("/imgs/icon_2.png") center center no-repeat;
+	background-size: 100% 100%;
+}
+
+.footer button {
+	float: right;
+	width: 1rem;
+	height: 0.6rem;
+	margin-top: 0.15rem;
+	margin-right: 0.12rem;
+	background: #15ae1b;
+	color: #fff;
+	border: 0.01rem solid #048604;
+	border-radius: 0.05rem;
+	font-size: 0.24rem;
+}
+
+#myCanvas {
+	display: none;
+}
+
+.cnamebox {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.3);
+	z-index: 1000;
+}
+
+.cname {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 6rem;
+	height: 3.66rem;
+	margin-top: -1.83rem;
+	margin-left: -3rem;
+	padding: 0.48rem;
+	background: #fff;
+	border-radius: 0.05rem;
+	box-sizing: border-box;
+}
+
+.cname h5 {
+	height: 0.42rem;
+	line-height: 1;
+	color: #000;
+	font-size: 0.3rem;
+}
+
+.cname input {
+	width: 5rem;
+	height: 0.48rem;
+	margin-top: 0.38rem;
+	padding: 0.06rem 0.08rem;
+	background: transparent;
+	border: none;
+	outline: none;
+	border-bottom: 0.02rem solid #8aae87;
+	font-size: 0.24rem;
+	line-height: 0.36rem;
+	color: #000;
+	caret-color: #0e8017;
+}
+
+.cname p {
+	width: 5rem;
+	height: 0.6rem;
+	line-height: 0.6rem;
+	font-size: 0.2rem;
+	color: #a3a3a3;
+}
+
+.cname span {
+	float: right;
+	height: 0.28rem;
+	margin-left: 0.72rem;
+	margin-top: 0.6rem;
+	line-height: 0.28rem;
+	font-size: 0.24rem;
+}
+
+#noc {
+	color: #767676;
+}
+
+#yesc {
+	color: #159b24;
+}
+.emojstext{
+	display: none;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 4rem;
+	overflow: auto;
+	background: #f3f3f3;
+	border-top: 0.02rem solid #e1e1e1;
+	z-index: 200;
+}
+.emojstext>span{
+	float: left;
+	width: 20px;
+	height: 20px;
+}
