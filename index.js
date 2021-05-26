@@ -4,6 +4,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var uuid = require('node-uuid');
 // var fs=require('fs');
+console.log(123);
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/client.html');
